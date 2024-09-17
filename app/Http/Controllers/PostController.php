@@ -32,9 +32,38 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+{
+    // Validasi request
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+        'you_do' => 'required|string',
+        'tags' => 'required|array',
+        'tags.*' => 'string|distinct'
+    ]);
+
+    // Buat post baru
+    $post = Post::create([
+        'title' => $validated['title'],
+        'content' => $validated['content'],
+        'you_do' => $validated['you_do'],
+    ]);
+
+    // Proses tag
+    $tags = array_unique($validated['tags']);
+    $tagIds = [];
+
+    foreach ($tags as $tagName) {
+        $tag = Tag::firstOrCreate(['name' => $tagName]);
+        $tagIds[] = $tag->id;
     }
+
+    // Menyimpan relasi post dan tag
+    $post->tags()->sync($tagIds);
+
+    return redirect()->back()->with('status', 'Berhasil membuat pertanyaan');
+}
+
 
     /**
      * Display the specified resource.
@@ -57,7 +86,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        
     }
 
     /**
