@@ -50,8 +50,18 @@
                         expecting?</label>
                     <textarea class="form-control" id="try_and_expect" name="try_and_expect" rows="5"
                         placeholder="Describe what you tried, what you expected to get, and what actually happened." disabled></textarea>
-                    <button type="submit" class="btn btn-primary mt-2" disabled>Submit</button>
                 </div>
+
+                <div class="form-section mb-4">
+                    <label for="tags" class="form-label fw-bold">Tags</label>
+                    <input type="text" class="form-control" id="tags" name="tags[]"
+                        placeholder="e.g. PHP, Laravel">
+                    <button type="button" class="btn btn-secondary mt-2" id="add-tag">Add Tag</button>
+                    <div id="tag-container" class="mt-2"></div>
+                    <div id="tag-suggestions" class="mt-2 bg-light border"></div> <!-- Suggestion Container -->
+                </div>
+                <button type="submit" class="btn btn-primary mt-2" disabled>Submit</button>
+
             </form>
         </div>
 
@@ -71,10 +81,9 @@
             const titleInput = document.getElementById('title');
             const detailsInput = document.getElementById('details');
             const tryAndExpectInput = document.getElementById('try_and_expect');
-
             const nextDetailsBtn = document.getElementById('next-details');
             const nextTryAndExpectBtn = document.getElementById('next-try-and-expect');
-
+            const submitBtn = document.querySelector('button[type="submit"]');
             const sectionDetails = document.getElementById('section-details');
             const sectionTryAndExpect = document.getElementById('section-try-and-expect');
 
@@ -100,7 +109,57 @@
                 sectionTryAndExpect.classList.remove('disabled');
                 tryAndExpectInput.disabled = false;
                 sectionTryAndExpect.style.display = 'block';
-                document.querySelector('button[type="submit"]').disabled = false;
+                submitBtn.disabled = false; // Enable the submit button
+            });
+
+            // Tag handling
+            const tagsInput = document.getElementById('tags');
+            const tagContainer = document.getElementById('tag-container');
+            const addTagBtn = document.getElementById('add-tag');
+            const tagSuggestions = document.getElementById('tag-suggestions');
+
+            // Function to add tag to tag container
+            function addTag(tag) {
+                if (!Array.from(tagContainer.children).some(child => child.textContent === tag)) {
+                    const tagElement = document.createElement('div');
+                    tagElement.classList.add('badge', 'bg-secondary', 'me-2');
+                    tagElement.textContent = tag;
+                    tagContainer.appendChild(tagElement);
+                    tagsInput.value = '';
+                    tagSuggestions.innerHTML = '';
+                }
+            }
+
+            // Event listener for input to fetch tag suggestions
+            tagsInput.addEventListener('input', async function() {
+                const query = tagsInput.value.trim();
+                if (query.length > 1) {
+                    const response = await fetch(`/api/tags?query=${query}`);
+                    const tags = await response.json();
+
+                    tagSuggestions.innerHTML = tags.map(tag =>
+                        `<div class="suggestion-item p-2" data-tag="${tag.name}">${tag.name}</div>`
+                    ).join('');
+                    tagSuggestions.style.display = 'block';
+                } else {
+                    tagSuggestions.innerHTML = '';
+                    tagSuggestions.style.display = 'none';
+                }
+            });
+
+            // Event listener for selecting a tag suggestion
+            tagSuggestions.addEventListener('click', function(event) {
+                if (event.target.classList.contains('suggestion-item')) {
+                    addTag(event.target.dataset.tag);
+                }
+            });
+
+            // Event listener for adding tag manually
+            addTagBtn.addEventListener('click', function() {
+                const tagValue = tagsInput.value.trim();
+                if (tagValue) {
+                    addTag(tagValue);
+                }
             });
         });
     </script>

@@ -4,16 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = $request->input('search');
+
+        if ($request->ajax()) {
+            $tags = DB::table('tags')
+                ->where('name', 'like', '%' . $query . '%')
+                ->get();
+
+            return response()->json($tags);
+        }
+
+        $tags = DB::table('tags')->get();
+
+        return view('tags.index', compact('tags'));
     }
+
 
     /**
      * Show the form for creating a new resource.

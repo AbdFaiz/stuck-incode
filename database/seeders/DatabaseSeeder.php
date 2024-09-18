@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Tag;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        User::factory(50)->create();
 
         User::factory()->create([
             'name' => 'Test User',
@@ -31,6 +32,18 @@ class DatabaseSeeder extends Seeder
             'name' => 'domm',
             'email' => 'dom@gmail.com',
             'password' => bcrypt('password'),
+        ]);
+
+        Tag::create([
+            'name' => 'laravel',
+        ]);
+
+        Tag::create([
+            'name' => 'json',
+        ]);
+
+        Tag::create([
+            'name' => 'php',
         ]);
     }
 }
