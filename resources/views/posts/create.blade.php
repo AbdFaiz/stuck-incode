@@ -50,7 +50,6 @@
                         expecting?</label>
                     <textarea class="form-control" id="try_and_expect" name="try_and_expect" rows="5"
                         placeholder="Describe what you tried, what you expected to get, and what actually happened." disabled></textarea>
-                    <button type="submit" class="btn btn-primary mt-2" disabled>Submit</button>
                 </div>
 
                 <div class="form-section mb-4">
@@ -61,6 +60,7 @@
                     <div id="tag-container" class="mt-2"></div>
                     <div id="tag-suggestions" class="mt-2 bg-light border"></div> <!-- Suggestion Container -->
                 </div>
+                <button type="submit" class="btn btn-primary mt-2" disabled>Submit</button>
             </form>
         </div>
 
@@ -133,17 +133,11 @@
             tagsInput.addEventListener('input', async function() {
                 const query = tagsInput.value.trim();
                 if (query.length > 1) {
-                    const response = await fetch(/api/tags ? query = $ {
-                        query
-                    });
+                    const response = await fetch(`/api/tags?query=${query}`);
                     const tags = await response.json();
 
                     tagSuggestions.innerHTML = tags.map(tag =>
-                        <
-                        div class = "suggestion-item p-2"
-                        data - tag = "${tag.name}" > $ {
-                            tag.name
-                        } < /div>
+                        `<div class="suggestion-item p-2" data-tag="${tag.name}">${tag.name}</div>`
                     ).join('');
                     tagSuggestions.style.display = 'block';
                 } else {

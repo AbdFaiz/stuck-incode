@@ -94,10 +94,12 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <!-- <img src="{{ asset('image/taktak.png') }}" style="height: 40px;"> -->
-                <a href="{{ route('home') }}" class="text-danger fw-semibold text-decoration-none">Stuck<span class="text-warning">InCode</span></a>
+                <a href="{{ route('home') }}" class="text-danger fw-semibold text-decoration-none">Stuck<span
+                        class="text-warning">InCode</span></a>
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -106,7 +108,7 @@
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('questions') }}">Questions</a>
+                        <a class="nav-link" href="{{ route('posts.index') }}">Questions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Tags</a>
@@ -116,35 +118,36 @@
                 <ul class="navbar-nav ms-auto fw-semibold">
                     <!-- Authentication Links -->
                     @guest
-                    @if (Route::has('login'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                    @endif
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                        @endif
 
-                    @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                    @endif
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
                     @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                     @endguest
             </div>
         </div>
@@ -155,43 +158,44 @@
         <div class="row">
             <!-- Sidebar hanya ditampilkan untuk user yang login -->
             @if (!in_array(Route::currentRouteName(), ['login', 'register']))
-            <div class="col-3">
-                <div class="d-none d-md-block scrollable-sidebar">
-                    <div class="card mb-4">
-                        <div class="card-header">Public</div>
-                        <div class="list-group list-group-flush">
-                            <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
-                            <a href="{{ route('questions') }}" class="list-group-item list-group-item-action">Questions</a>
-                            <a href="#" class="list-group-item list-group-item-action">Tags</a>
-                            <a href="#" class="list-group-item list-group-item-action">Users</a>
-                            <a href="#" class="list-group-item list-group-item-action">Badges</a>
+                <div class="col-3">
+                    <div class="d-none d-md-block scrollable-sidebar">
+                        <div class="card mb-4">
+                            <div class="card-header">Public</div>
+                            <div class="list-group list-group-flush">
+                                <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
+                                <a href="{{ route('posts.index') }}"
+                                    class="list-group-item list-group-item-action">Questions</a>
+                                <a href="{{ route('tags.index') }}"
+                                    class="list-group-item list-group-item-action">Tags</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-4">
-                        <div class="card-header">Collectives</div>
-                        <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action">Your Organizations</a>
+                        <div class="card mb-4">
+                            <div class="card-header">Collectives</div>
+                            <div class="list-group list-group-flush">
+                                <a href="#" class="list-group-item list-group-item-action">Saves</a>
+                                <a href="#" class="list-group-item list-group-item-action">Users</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-4">
-                        <div class="card-header">Followed Tags</div>
-                        <div class="card-body">
-                            <p>No tags followed yet.</p>
+                        <div class="card mb-4">
+                            <div class="card-header">Recent Tags</div>
+                            <div class="card-body">
+                                <p>No tags followed yet.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-4">
-                        <div class="card-header">Your Stats</div>
-                        <div class="card-body">
-                            <p><strong>Questions asked:</strong> 2</p>
-                            <p><strong>Answers given:</strong> 5</p>
-                            <p><strong>Reputation:</strong> 15</p>
+                        <div class="card mb-4">
+                            <div class="card-header">Your Stats</div>
+                            <div class="card-body">
+                                <p><strong>Questions asked:</strong> 2</p>
+                                <p><strong>Answers given:</strong> 5</p>
+                                <p><strong>Reputation:</strong> 15</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endif
 
             <div class="{{ in_array(Route::currentRouteName(), ['login', 'register']) ? 'col-12' : 'col-9' }}">
