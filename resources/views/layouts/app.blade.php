@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - My Laravel App</title>
+    <title>@yield('title') - Stack Overflow</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -19,7 +19,7 @@
         }
 
         .navbar {
-            background-color: #f48024;
+            background-color: #6c757d;
         }
 
         .navbar .navbar-brand {
@@ -37,6 +37,12 @@
             margin-top: 30px;
             text-align: center;
             color: #6c757d;
+        }
+
+        .form-section {
+            padding: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
         }
 
         .scrollable-sidebar {
@@ -59,11 +65,16 @@
             overflow-y: auto;
             z-index: 1000;
         }
+
         .content-scrollable {
             margin-left: 25%;
             padding: 1rem;
             height: calc(100vh - 2rem);
             overflow-y: auto;
+        }
+
+        .instruction-section {
+            border-radius: 14px;
         }
     </style>
 </head>
@@ -73,7 +84,10 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">My Laravel App</a>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('image/taktak.png') }}"style="height: 40px;">
+            </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -133,10 +147,8 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 My Laravel App. All rights reserved.</p>
-        </div>
+    <footer class="mt-5 p-3 d-flex justify-content-center bg-primary text-white fw-semibold">
+        Copyright &copy; Zet dan Fz
     </footer>
 
     <!-- Bootstrap JS -->

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <!-- Main row with sidebar and content -->
     <div class="row mt-4">
         <!-- Sidebar -->
@@ -45,7 +45,7 @@
         <div class="col-md-9 scrollable-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2>Top Questions</h2>
-                <a href="#" class="btn btn-primary">Ask Question</a>
+                <a href="{{ route('posts.create') }}" class="btn btn-primary">Ask Question</a>
             </div>
 
             <!-- Questions list -->
