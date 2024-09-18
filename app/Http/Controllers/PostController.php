@@ -16,8 +16,16 @@ class PostController extends Controller
     {
         $posts = Tag::with('posts')->get();
 
-        return view('posts.index', compact('posts'));
+        return view('questions', compact('posts'));
     }
+
+    public function topQuestions()
+    {
+        $topPosts = Post::orderBy('views', 'desc')->take(10)->get(); // Ambil 10 pertanyaan dengan views terbanyak
+
+        return view('home', compact('topPosts'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -68,6 +76,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        // Tambahkan 1 ke jumlah views setiap kali pertanyaan diakses
+        $post->increment('views');
+
         return view('posts.show', compact('post'));
     }
 
