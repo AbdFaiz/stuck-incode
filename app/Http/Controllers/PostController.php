@@ -41,42 +41,33 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Validasi input
+        $request->validate([
             'title' => 'required|string|max:255',
             'details' => 'required|string',
             'try_and_expect' => 'required|string',
-            'tags' => 'required|array',
-            'tags.*' => 'string|distinct'
+            'tags-hidden' => 'required|string', // Tag yang dipilih disimpan dalam hidden field
         ]);
 
-        // Buat post baru
-        $post = Post::create([
-            'title' => $validated['title'],
-            'details' => $validated['details'],
-            'try_and_expect' => $validated['try_and_expect'],
-            'user_id' => Auth::user()->id,
-        ]);
+        // Simpan post
+        $post = new Post();
+        $post->title = $request->input('title');
+        $post->details = $request->input('details');
+        $post->try_and_expect = $request->input('try_and_expect');
+        $post->user_id = Auth::user()->id; // Ambil ID user yang sedang login
+        $post->save(); // Simpan post ke database
 
         // Proses tags
-        $tags = array_unique($validated['tags']);
-        $tagIds = [];
-
+        $tags = explode(',', $request->input('tags-hidden'));
         foreach ($tags as $tagName) {
-            // Temukan tag atau buat baru jika tidak ada
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $tagIds[] = $tag->id;
+            $tag = Tag::firstOrCreate(['name' => $tagName]); // Cari atau buat tag baru
+            $post->tags()->attach($tag); // Hubungkan post dengan tag di tabel pivot
         }
 
-        // Sinkronisasi tags dengan post
-        $post->tags()->sync($tagIds);
-
-        // Update used_count setiap tag
-        foreach ($tagIds as $tag_id) {
-            Tag::where('id', $tag_id)->increment('used_count');
-        }
-
-        return redirect()->route('posts.index')->with('status', 'Pertanyaan berhasil dibuat.');
+        // Redirect setelah berhasil menyimpan
+        return redirect()->route('posts.index')->with('success', 'Post created successfully');
     }
+
 
     /**
      * Display the specified resource.
@@ -104,8 +95,8 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'you_do' => 'required|string',
+            'details' => 'required|string',
+            'try_and_expect' => 'required|string',
             'tags' => 'required|array',
             'tags.*' => 'string|distinct'
         ]);
@@ -113,8 +104,8 @@ class PostController extends Controller
         // Simpan perubahan pada post
         $post->update([
             'title' => $validated['title'],
-            'content' => $validated['content'],
-            'you_do' => $validated['you_do'],
+            'details' => $validated['details'],
+            'try_and_expect' => $validated['try_and_expect'],
         ]);
 
         // Proses tags
