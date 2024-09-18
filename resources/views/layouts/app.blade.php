@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - Stack Overflow</title>
+    <title>@yield('title')Stack Overflow</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -14,8 +14,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex-grow: 1;
         }
 
         .navbar {
@@ -85,7 +93,8 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('image/taktak.png') }}"style="height: 40px;">
+                <!-- <img src="{{ asset('image/taktak.png') }}" style="height: 40px;"> -->
+                <a href="{{ route('home') }}" class="text-danger fw-semibold text-decoration-none">Stuck<span class="text-warning">InCode</span></a>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,10 +103,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Questions</a>
+                        <a class="nav-link" href="{{ route('questions') }}">Questions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Tags</a>
@@ -142,8 +151,49 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-4">
-        @yield('content')
+    <div class="container mt-4 content">
+        <div class="row">
+            <div class="col-3">
+                <div class="d-none d-md-block scrollable-sidebar">
+                    <div class="card mb-4">
+                        <div class="card-header">Public</div>
+                        <div class="list-group list-group-flush">
+                            <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
+                            <a href="{{ route('questions') }}" class="list-group-item list-group-item-action">Questions</a>
+                            <a href="#" class="list-group-item list-group-item-action">Tags</a>
+                            <a href="#" class="list-group-item list-group-item-action">Users</a>
+                            <a href="#" class="list-group-item list-group-item-action">Badges</a>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">Collectives</div>
+                        <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action">Your Organizations</a>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">Followed Tags</div>
+                        <div class="card-body">
+                            <p>No tags followed yet.</p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">Your Stats</div>
+                        <div class="card-body">
+                            <p><strong>Questions asked:</strong> 2</p>
+                            <p><strong>Answers given:</strong> 5</p>
+                            <p><strong>Reputation:</strong> 15</p>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div class="col-9">
+                @yield('content')
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
