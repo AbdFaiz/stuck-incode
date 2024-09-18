@@ -101,7 +101,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto fw-semibold">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
@@ -113,7 +113,7 @@
                     </li>
                 </ul>
                 <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto fw-semibold">
                     <!-- Authentication Links -->
                     @guest
                     @if (Route::has('login'))
@@ -153,6 +153,8 @@
     <!-- Main Content -->
     <div class="container mt-4 content">
         <div class="row">
+            <!-- Sidebar hanya ditampilkan untuk user yang login -->
+            @if (!in_array(Route::currentRouteName(), ['login', 'register']))
             <div class="col-3">
                 <div class="d-none d-md-block scrollable-sidebar">
                     <div class="card mb-4">
@@ -187,14 +189,17 @@
                             <p><strong>Answers given:</strong> 5</p>
                             <p><strong>Reputation:</strong> 15</p>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
-            <div class="col-9">
+            @endif
+
+            <div class="{{ in_array(Route::currentRouteName(), ['login', 'register']) ? 'col-12' : 'col-9' }}">
                 @yield('content')
             </div>
         </div>
     </div>
+
 
     <!-- Footer -->
     <footer class="mt-5 p-3 d-flex justify-content-center bg-primary text-white fw-semibold">
