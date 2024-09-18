@@ -14,7 +14,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
-    Route::get('/questions', [App\Http\Controllers\HomeController::class, 'allQuest'])->name('questions');
+    Route::get('/questions', [App\Http\Controllers\PostController::class, 'index'])->name('questions');
 
     Route::get('/home', [App\Http\Controllers\PostController::class, 'topQuestions'])->name('home');
 
@@ -22,9 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('tags', TagController::class);
     Route::get('/questions', [App\Http\Controllers\PostController::class, 'index'])->name('questions');
 
-Route::get('/api/tags', function (Request $request) {
-    $query = $request->query('query');
-    $tags = Tag::where('name', 'like', "%{$query}%")->limit(5)->get(['name']);
-    return response()->json($tags);
-});
+    Route::get('/api/tags', function (Request $request) {
+        $query = $request->get('query');
+        $tags = Tag::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
+        return response()->json($tags);
+    });
 });

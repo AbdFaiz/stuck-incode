@@ -56,10 +56,11 @@
                     <label for="tags" class="form-label fw-bold">Tags</label>
                     <input type="text" class="form-control" id="tags" name="tags[]"
                         placeholder="e.g. PHP, Laravel">
-                    <button type="button" class="btn btn-secondary mt-2" id="add-tag">Add Tag</button>
+                    <div id="tag-suggestions" class="mt-2 bg-light border"></div>
                     <div id="tag-container" class="mt-2"></div>
-                    <div id="tag-suggestions" class="mt-2 bg-light border"></div> <!-- Suggestion Container -->
+                    <input type="hidden" id="tags-hidden" name="tags-hidden">
                 </div>
+
                 <button type="submit" class="btn btn-primary mt-2" disabled>Submit</button>
             </form>
         </div>
@@ -111,25 +112,41 @@
                 submitBtn.disabled = false; // Enable the submit button
             });
 
-            // Tag handling
             const tagsInput = document.getElementById('tags');
             const tagContainer = document.getElementById('tag-container');
-            const addTagBtn = document.getElementById('add-tag');
             const tagSuggestions = document.getElementById('tag-suggestions');
+            let tagsArray = [];
 
-            // Function to add tag to tag container
+            function updateTagsHidden() {
+                document.getElementById('tags-hidden').value = tagsArray.join(',');
+            }
+
             function addTag(tag) {
-                if (!Array.from(tagContainer.children).some(child => child.textContent === tag)) {
+                if (!tagsArray.includes(tag)) {
+                    tagsArray.push(tag);
+
                     const tagElement = document.createElement('div');
-                    tagElement.classList.add('badge', 'bg-secondary', 'me-2');
+                    tagElement.classList.add('badge', 'bg-secondary', 'me-2', 'tag-item');
                     tagElement.textContent = tag;
+
+                    const removeButton = document.createElement('button');
+                    removeButton.classList.add('btn-close', 'ms-2');
+                    removeButton.setAttribute('aria-label', 'Remove tag');
+                    removeButton.addEventListener('click', function() {
+                        tagsArray = tagsArray.filter(t => t !== tag);
+                        tagContainer.removeChild(tagElement);
+                        updateTagsHidden();
+                    });
+
+                    tagElement.appendChild(removeButton);
                     tagContainer.appendChild(tagElement);
-                    tagsInput.value = '';
-                    tagSuggestions.innerHTML = '';
+
+                    tagsInput.value = ''; // Clear input
+                    tagSuggestions.innerHTML = ''; // Clear suggestions
+                    updateTagsHidden();
                 }
             }
 
-            // Event listener for input to fetch tag suggestions
             tagsInput.addEventListener('input', async function() {
                 const query = tagsInput.value.trim();
                 if (query.length > 1) {
@@ -146,18 +163,21 @@
                 }
             });
 
-            // Event listener for selecting a tag suggestion
             tagSuggestions.addEventListener('click', function(event) {
                 if (event.target.classList.contains('suggestion-item')) {
                     addTag(event.target.dataset.tag);
+                    tagSuggestions.style.display = 'none'; // Hide suggestions after selection
                 }
             });
 
-            // Event listener for adding tag manually
-            addTagBtn.addEventListener('click', function() {
-                const tagValue = tagsInput.value.trim();
-                if (tagValue) {
-                    addTag(tagValue);
+            tagsInput.addEventListener('keydown', function(event) {
+                // Allow adding a new tag with "Enter" if it doesn't exist in suggestions
+                if (event.key === 'Enter') {
+                    const tagToAdd = tagsInput.value.trim();
+                    if (tagToAdd !== '') {
+                        addTag(tagToAdd);
+                        event.preventDefault();
+                    }
                 }
             });
         });
