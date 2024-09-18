@@ -61,7 +61,6 @@
                     <div id="tag-suggestions" class="mt-2 bg-light border"></div> <!-- Suggestion Container -->
                 </div>
                 <button type="submit" class="btn btn-primary mt-2" disabled>Submit</button>
-
             </form>
         </div>
 
