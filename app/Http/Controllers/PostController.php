@@ -14,18 +14,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Tag::with('posts')->get();
-
-        return view('questions', compact('posts'));
+        $posts = Post::all();
+        return view('posts.index', compact('posts'));
     }
 
+    /**
+     * Display top questions based on views.
+     */
     public function topQuestions()
     {
-        $topPosts = Post::orderBy('views', 'desc')->take(10)->get(); // Ambil 10 pertanyaan dengan views terbanyak
-
+        $topPosts = Post::orderBy('views', 'desc')->take(10)->get();
         return view('home', compact('topPosts'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -33,7 +33,6 @@ class PostController extends Controller
     public function create()
     {
         $tags = Tag::all();
-
         return view('posts.create', compact('tags'));
     }
 
@@ -44,41 +43,48 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'you_do' => 'required|string',
+            'details' => 'required|string',
+            'try_and_expect' => 'required|string',
             'tags' => 'required|array',
             'tags.*' => 'string|distinct'
         ]);
 
+        // Buat post baru
         $post = Post::create([
             'title' => $validated['title'],
-            'content' => $validated['content'],
-            'you_do' => $validated['you_do'],
+            'details' => $validated['details'],
+            'try_and_expect' => $validated['try_and_expect'],
             'user_id' => Auth::user()->id,
         ]);
 
+        // Proses tags
         $tags = array_unique($validated['tags']);
         $tagIds = [];
 
         foreach ($tags as $tagName) {
+            // Temukan tag atau buat baru jika tidak ada
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $tagIds[] = $tag->id;
         }
 
+        // Sinkronisasi tags dengan post
         $post->tags()->sync($tagIds);
+
+        // Update used_count setiap tag
+        foreach ($tagIds as $tag_id) {
+            Tag::where('id', $tag_id)->increment('used_count');
+        }
 
         return redirect()->route('posts.index')->with('status', 'Pertanyaan berhasil dibuat.');
     }
-
 
     /**
      * Display the specified resource.
      */
     public function show(Post $post)
     {
-        // Tambahkan 1 ke jumlah views setiap kali pertanyaan diakses
+        // Tambah views setiap kali pertanyaan diakses
         $post->increment('views');
-
         return view('posts.show', compact('post'));
     }
 
@@ -87,7 +93,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+        $tags = Tag::all();
+        return view('posts.edit', compact('post', 'tags'));
     }
 
     /**
@@ -103,7 +110,7 @@ class PostController extends Controller
             'tags.*' => 'string|distinct'
         ]);
 
-        // Update post
+        // Simpan perubahan pada post
         $post->update([
             'title' => $validated['title'],
             'content' => $validated['content'],
@@ -111,16 +118,27 @@ class PostController extends Controller
         ]);
 
         // Proses tags
-        $tags = array_unique($validated['tags']);
-        $tagIds = [];
-
-        foreach ($tags as $tagName) {
+        $newTags = array_unique($validated['tags']);
+        $newTagIds = [];
+        foreach ($newTags as $tagName) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $tagIds[] = $tag->id;
+            $newTagIds[] = $tag->id;
         }
 
-        // Sync tags dengan post
-        $post->tags()->sync($tagIds);
+        // Ambil tags lama sebelum di-sync
+        $oldTagIds = $post->tags()->pluck('id')->toArray();
+
+        // Sync tags baru dengan post
+        $post->tags()->sync($newTagIds);
+
+        // Update used_count: Tambahkan untuk tag baru, kurangi untuk tag yang dihapus
+        foreach (array_diff($newTagIds, $oldTagIds) as $newTagId) {
+            Tag::where('id', $newTagId)->increment('used_count');
+        }
+
+        foreach (array_diff($oldTagIds, $newTagIds) as $oldTagId) {
+            Tag::where('id', $oldTagId)->decrement('used_count');
+        }
 
         return redirect()->route('posts.index')->with('status', 'Pertanyaan berhasil diperbarui.');
     }
@@ -130,7 +148,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        foreach ($post->tags as $tag) {
+            $tag->decrement('used_count');
+        }
+
+        // Hapus post
+        $post->tags()->detach();
         $post->delete();
+
         return redirect()->route('posts.index')->with('status', 'Pertanyaan berhasil dihapus.');
     }
 }

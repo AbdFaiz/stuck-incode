@@ -26,11 +26,4 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-    public function allQuest()
-    {
-        Post::all();
-
-        return view('questions');
-    }
 }
