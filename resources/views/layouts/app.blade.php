@@ -200,6 +200,7 @@
 
             <div class="{{ in_array(Route::currentRouteName(), ['login', 'register']) ? 'col-12' : 'col-9' }}">
                 @yield('content')
+                @livewireScripts
             </div>
         </div>
     </div>
