@@ -14,16 +14,29 @@ class TagController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('search');
+        $filter = $request->input('filter');
 
-        if ($request->ajax()) {
-            $tags = DB::table('tags')
-                ->where('name', 'like', '%' . $query . '%')
-                ->get();
+        $tags = DB::table('tags');
 
-            return response()->json($tags);
+        if ($query) {
+            $tags->where('name', 'like', '%' . $query . '%');
         }
 
-        $tags = DB::table('tags')->get();
+        // Handle filtering based on 'filter' parameter
+        if ($filter === 'popular') {
+            $tags->orderBy('used_count', 'desc');
+        } elseif ($filter === 'name') {
+            $tags->orderBy('name', 'asc');
+        } elseif ($filter === 'new') {
+            $tags->orderBy('created_at', 'desc');
+        }
+
+        // Get filtered tags
+        $tags = $tags->get();
+
+        if ($request->ajax()) {
+            return response()->json($tags);
+        }
 
         return view('tags.index', compact('tags'));
     }
