@@ -14,7 +14,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with('tags') // Ambil data dengan relasi tags jika ada
+            ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan waktu dibuat
+            ->paginate(100); // Pagination dengan 100 data per halaman
+
         return view('posts.index', compact('posts'));
     }
 
@@ -46,7 +49,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'details' => 'required|string',
             'try_and_expect' => 'required|string',
-            'tags-hidden' => 'required|string', // Tag yang dipilih disimpan dalam hidden field
+            'tags-hidden' => 'required|string',
         ]);
 
         // Simpan post
@@ -54,17 +57,20 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->details = $request->input('details');
         $post->try_and_expect = $request->input('try_and_expect');
-        $post->user_id = Auth::user()->id; // Ambil ID user yang sedang login
-        $post->save(); // Simpan post ke database
+        $post->user_id = Auth::user()->id;
+        $post->save();
 
         // Proses tags
         $tags = explode(',', $request->input('tags-hidden'));
         foreach ($tags as $tagName) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]); // Cari atau buat tag baru
-            $post->tags()->attach($tag); // Hubungkan post dengan tag di tabel pivot
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+
+            $tag->used_count += 1;
+            $tag->save();
+
+            $post->tags()->attach($tag);
         }
 
-        // Redirect setelah berhasil menyimpan
         return redirect()->route('posts.index')->with('success', 'Post created successfully');
     }
 
@@ -148,5 +154,30 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index')->with('status', 'Pertanyaan berhasil dihapus.');
+    }
+
+    // fitur vote
+    public function vote(Request $request, Post $post)
+    {
+        $vote = $request->input('vote');
+
+        if ($vote === 'up') {
+            $post->increment('votes');
+        } elseif ($vote === 'down') {
+            $post->decrement('votes');
+        }
+
+        return redirect()->back()->with('status', 'Vote berhasil diproses.');
+    }
+
+    public function downvote(Request $request, Post $post)
+    {
+        $vote = $request->input('vote');
+
+        if ($vote === 'down') {
+            $post->decrement('votes');
+        }
+
+        return redirect()->back()->with('status', 'Downvote berhasil diproses.');
     }
 }

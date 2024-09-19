@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Models\Tag;
@@ -27,4 +28,15 @@ Route::middleware('auth')->group(function () {
         $tags = Tag::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
         return response()->json($tags);
     });
+
+    // jawaban dan fiturnya
+
+    Route::post('/posts/{post}/vote', [PostController::class, 'vote'])->name('posts.vote');
+    Route::post('/posts/{post}/downvote', [PostController::class, 'downvote'])->name('posts.downvote');
+
+    Route::post('/answers/{answer}/vote', [AnswerController::class, 'vote'])->name('answers.vote');
+    Route::post('/answers/{answer}/downvote', [AnswerController::class, 'downvote'])->name('answers.downvote');
+
+    Route::post('/posts/{post}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');
+    Route::post('/posts/{post}/answers', [AnswerController::class, 'store'])->name('answers.store');
 });

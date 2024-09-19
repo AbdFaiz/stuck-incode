@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->text('details');
             $table->text('try_and_expect');
             $table->integer('views')->default(0);
+            $table->integer('votes')->default(0);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
