@@ -37,6 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/answers/{answer}/vote', [AnswerController::class, 'vote'])->name('answers.vote');
     Route::post('/answers/{answer}/downvote', [AnswerController::class, 'downvote'])->name('answers.downvote');
 
-    Route::post('/posts/{post}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');
-    Route::post('/posts/{post}/answers', [AnswerController::class, 'store'])->name('answers.store');
+    // Route::post('/posts/{post}/answers/{answer}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');
+    // Route::post('/posts/{post}/answers', [AnswerController::class, 'store'])->name('answers.store');
 });
