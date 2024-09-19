@@ -16,8 +16,7 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
     Route::get('/questions', [App\Http\Controllers\PostController::class, 'index'])->name('questions');
-
-    Route::get('/home', [App\Http\Controllers\PostController::class, 'topQuestions'])->name('home');
+    Route::get('/home', [PostController::class, 'topQuestions'])->name('home');
 
     Route::resource('posts', PostController::class);
     Route::resource('tags', TagController::class);
@@ -30,7 +29,6 @@ Route::middleware('auth')->group(function () {
     });
 
     // jawaban dan fiturnya
-
     Route::post('/posts/{post}/vote', [PostController::class, 'vote'])->name('posts.vote');
     Route::post('/posts/{post}/downvote', [PostController::class, 'downvote'])->name('posts.downvote');
 

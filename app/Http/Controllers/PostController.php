@@ -24,11 +24,32 @@ class PostController extends Controller
     /**
      * Display top questions based on views.
      */
-    public function topQuestions()
+    public function topQuestions(Request $request)
     {
-        $topPosts = Post::orderBy('views', 'desc')->take(10)->get();
-        return view('home', compact('topPosts'));
+        $filter = $request->query('filter', 'interesting'); // Default filter is 'interesting'
+
+        switch ($filter) {
+            case 'week':
+                $topPosts = Post::where('created_at', '>=', now()->subWeek())
+                    ->orderBy('views', 'desc')
+                    ->paginate(100);
+                break;
+
+            case 'month':
+                $topPosts = Post::where('created_at', '>=', now()->subMonth())
+                    ->orderBy('views', 'desc')
+                    ->paginate(100);
+                break;
+
+            default: // 'interesting' filter
+                $topPosts = Post::orderBy('views', 'desc')->withCount('answers')
+                    ->paginate(100);
+                break;
+        }
+
+        return view('home', compact('topPosts', 'filter'));
     }
+
 
     /**
      * Show the form for creating a new resource.
