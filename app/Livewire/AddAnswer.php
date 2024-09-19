@@ -36,6 +36,7 @@ class AddAnswer extends Component
         $this->emit('answerAdded'); // Trigger event to refresh answers list
     }
 
+
     public function render()
     {
         return view('livewire.add-answer');
