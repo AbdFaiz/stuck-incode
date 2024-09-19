@@ -29,19 +29,23 @@
                 <!-- Votes, Answers, Views column -->
                 <div class="col-md-2 text-center">
                     <div class="mb-2">
-                        <strong class="fs-6">{{ $post->votes }}</strong><br>
-                        <span class="text-muted small">votes</span>
+                        <span class="badge bg-primary text-small">{{ $post->votes }} votes</span><br>
                     </div>
                     <div class="mb-2">
-                        <strong class="fs-6 {{ $post->answers_count > 0 ? 'text-success' : 'text-danger' }}">
-                            {{ $post->answers_count }}
-                        </strong><br>
-                        <span class="text-muted small">answers</span>
+                        <span class="badge {{ $post->answers_count > 0 ? 'bg-secondary' : 'bg-danger' }} text-small">
+                            {{ $post->answers_count }} answer
+                        </span><br>
                     </div>
                     <div class="mb-2">
-                        <strong class="fs-6">{{ $post->views }}</strong><br>
-                        <span class="text-muted small">views</span>
+                        <span class="badge bg-info text-small">{{ $post->views }} views</span><br>
                     </div>
+
+                    <!-- Accepted Answer Indicator -->
+                    @if ($post->answers->contains('is_accepted', true))
+                        <div class="mt-2">
+                            <span class="badge bg-success"><i class="bi bi-check"></i> Accepted Answer</span>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Question content -->

@@ -32,7 +32,7 @@
                     </div>
                     <p>{{ $answer->content }}</p>
                     @if ($answer->is_accepted)
-                        <span class="badge bg-success">✔️ Accepted</span>
+                        <span class="badge bg-success"><i class="bi bi-check"></i> Accepted</span>
                     @endif
                 </div>
             </div>
