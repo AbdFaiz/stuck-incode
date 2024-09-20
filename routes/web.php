@@ -53,6 +53,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');
     Route::post('/posts/{post}/save', [PostController::class, 'savePost'])->name('posts.save');
     Route::delete('/posts/{post}/unsave', [PostController::class, 'unsavePost'])->name('posts.unsave');
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+
+
 
 
     // Route::post('/posts/{post}/answers/{answer}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');

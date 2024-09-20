@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Symfony\Component\Console\Question\Question;
 
 class User extends Authenticatable
 {
@@ -50,6 +51,12 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    // Relasi ke jawaban
     public function answers()
     {
         return $this->hasMany(Answer::class);
@@ -59,5 +66,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Post::class, 'post_user', 'user_id', 'post_id');
     }
-
 }
