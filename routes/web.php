@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,7 +42,12 @@ Route::middleware('auth')->group(function () {
     // users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+    Route::get('/api/users', function (Request $request) {
+        $query = $request->get('query');
+        $users = User::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
+        return response()->json($users);
+    });
+    
 
     // save posts from user
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');

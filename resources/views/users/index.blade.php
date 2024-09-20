@@ -44,43 +44,43 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#search').on('keyup', function() {
-            let query = $(this).val();
-            $.ajax({
-                url: "{{ route('users.search') }}",
-                type: "GET",
-                data: { query: query },
-                success: function(data) {
-                    $('#user-list').empty();
-                    if (data.length > 0) {
-                        $.each(data, function(index, user) {
-                            $('#user-list').append(`
-                                <div class="col-md-3 mb-4 user-card">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                <a href="/users/${user.id}" class="text-decoration-none">${user.name}</a>
-                                            </h5>
-                                            <p class="card-text text-muted">${user.email}</p>
-                                            <p class="text-small">
-                                                <span><strong>${user.posts_count}</strong> posts</span> &bull;
-                                                <span><strong>${user.answers_count}</strong> answers</span>
-                                            </p>
-                                        </div>
-                                        <div class="card-footer text-muted">
-                                            Joined ${new Date(user.created_at).toLocaleDateString()}
-                                        </div>
+    $('#search').on('keyup', function() {
+        let query = $(this).val();
+        $.ajax({
+            url: "{{ route('users.index') }}",  // Pastikan route ini sesuai
+            type: "GET",
+            data: { query: query },
+            success: function(data) {
+                $('#user-list').empty();
+                if (data.length > 0) {
+                    $.each(data, function(index, user) {
+                        $('#user-list').append(`
+                            <div class="col-md-3 mb-4 user-card">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="/users/${user.id}" class="text-decoration-none">${user.name}</a>
+                                        </h5>
+                                        <p class="card-text text-muted">${user.email}</p>
+                                        <p class="text-small">
+                                            <span><strong>${user.posts_count}</strong> posts</span> &bull;
+                                            <span><strong>${user.answers_count}</strong> answers</span>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        Joined ${new Date(user.created_at).toLocaleDateString()}
                                     </div>
                                 </div>
-                            `);
-                        });
-                    } else {
-                        $('#user-list').append('<p>No users found</p>');
-                    }
+                            </div>
+                        `);
+                    });
+                } else {
+                    $('#user-list').append('<p>No users found</p>');
                 }
-            });
+            }
         });
     });
+});
 </script>
 @endsection
 @endsection
