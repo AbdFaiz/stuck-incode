@@ -62,9 +62,30 @@
                                 <span class="badge bg-light text-dark me-1">{{ $tag->name }}</span>
                             @endforeach
                         </div>
+
                         <!-- Time and User Info -->
                         <small class="text-muted">asked {{ $post->created_at->diffForHumans() }} by
                             {{ $post->user->name }}</small>
+                    </div>
+
+                    {{-- Save --}}
+                    <div class="text-end mb-2 mt-2">
+                        @if (auth()->user()->savedPosts->contains($post->id))
+                            <form action="{{ route('posts.unsave', $post->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-bookmark"></i>
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route('posts.save', $post->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="far fa-bookmark"></i>
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
