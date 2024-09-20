@@ -112,7 +112,7 @@
                         <a class="nav-link" href="{{ route('posts.index') }}">Questions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Tags</a>
+                        <a class="nav-link" href="{{ route('tags.index') }}">Tags</a>
                     </li>
                 </ul>
                 <!-- Right Side Of Navbar -->
@@ -176,7 +176,7 @@
                             <div class="card-header">Collectives</div>
                             <div class="list-group list-group-flush">
                                 <a href="#" class="list-group-item list-group-item-action">Saves</a>
-                                <a href="#" class="list-group-item list-group-item-action">Users</a>
+                                <a href="{{ route('users.index') }}" class="list-group-item list-group-item-action">Users</a>
                             </div>
                         </div>
 
