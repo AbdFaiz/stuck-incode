@@ -37,9 +37,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/answers/{answer}/vote', [AnswerController::class, 'vote'])->name('answers.vote');
     Route::post('/answers/{answer}/downvote', [AnswerController::class, 'downvote'])->name('answers.downvote');
     Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
+
+    // users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+
+    // save posts from user
+    Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');
+    Route::post('/posts/{post}/save', [PostController::class, 'savePost'])->name('posts.save');
+    Route::delete('/posts/{post}/unsave', [PostController::class, 'unsavePost'])->name('posts.unsave');
 
 
     // Route::post('/posts/{post}/answers/{answer}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');

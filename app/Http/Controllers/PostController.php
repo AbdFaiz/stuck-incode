@@ -31,25 +31,27 @@ class PostController extends Controller
         switch ($filter) {
             case 'week':
                 $topPosts = Post::where('created_at', '>=', now()->subWeek())
+                    ->withCount('answers') // Tambahkan ini
                     ->orderBy('views', 'desc')
                     ->paginate(100);
                 break;
 
             case 'month':
                 $topPosts = Post::where('created_at', '>=', now()->subMonth())
+                    ->withCount('answers') // Tambahkan ini
                     ->orderBy('views', 'desc')
                     ->paginate(100);
                 break;
 
             default: // 'interesting' filter
-                $topPosts = Post::orderBy('views', 'desc')->withCount('answers')
+                $topPosts = Post::withCount('answers') // Pastikan ini tetap ada
+                    ->orderBy('views', 'desc')
                     ->paginate(100);
                 break;
         }
 
         return view('home', compact('topPosts', 'filter'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -200,5 +202,23 @@ class PostController extends Controller
         }
 
         return redirect()->back()->with('status', 'Downvote berhasil diproses.');
+    }
+
+    public function savePost(Post $post)
+    {
+        if (!Auth::user()->savedPosts()->where('post_id', $post->id)->exists()) {
+            Auth::user()->savedPosts()->attach($post->id);
+        }
+
+        return back()->with('success', 'Post has been saved.');
+    }
+
+    public function unsavePost(Post $post)
+    {
+        if (Auth::user()->savedPosts()->where('post_id', $post->id)->exists()) {
+            Auth::user()->savedPosts()->detach($post->id);
+        }
+
+        return back()->with('success', 'Post has been unsaved.');
     }
 }

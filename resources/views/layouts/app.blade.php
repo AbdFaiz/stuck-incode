@@ -175,8 +175,10 @@
                         <div class="card mb-4">
                             <div class="card-header">Collectives</div>
                             <div class="list-group list-group-flush">
-                                <a href="#" class="list-group-item list-group-item-action">Saves</a>
-                                <a href="{{ route('users.index') }}" class="list-group-item list-group-item-action">Users</a>
+                                <a href="{{ route('saved.posts') }}"
+                                    class="list-group-item list-group-item-action">Saves</a>
+                                <a href="{{ route('users.index') }}"
+                                    class="list-group-item list-group-item-action">Users</a>
                             </div>
                         </div>
 
