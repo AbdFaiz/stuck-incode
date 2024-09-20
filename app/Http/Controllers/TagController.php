@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -63,8 +64,16 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        $questions = $tag->posts()->latest()->paginate(10);
+        return view('tags.show', compact('tag', 'questions'));
     }
+
+    // Di dalam model Tag.php
+    public function questions()
+    {
+        return $this->belongsToMany(Post::class);
+    }
+
 
     /**
      * Show the form for editing the specified resource.

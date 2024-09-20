@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -12,11 +13,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', [PostController::class, 'topQuestions'])->name('home');
+
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
     Route::get('/questions', [App\Http\Controllers\PostController::class, 'index'])->name('questions');
-    Route::get('/home', [PostController::class, 'topQuestions'])->name('home');
 
     Route::resource('posts', PostController::class);
     Route::resource('tags', TagController::class);
@@ -34,6 +36,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/answers/{answer}/vote', [AnswerController::class, 'vote'])->name('answers.vote');
     Route::post('/answers/{answer}/downvote', [AnswerController::class, 'downvote'])->name('answers.downvote');
+    Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tags.show');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+
 
     // Route::post('/posts/{post}/answers/{answer}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');
     // Route::post('/posts/{post}/answers', [AnswerController::class, 'store'])->name('answers.store');

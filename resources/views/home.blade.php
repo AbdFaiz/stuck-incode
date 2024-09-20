@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container mb-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold">Top Questions</h2>
             <a href="{{ route('posts.create') }}" class="btn btn-primary">Ask Question</a>
