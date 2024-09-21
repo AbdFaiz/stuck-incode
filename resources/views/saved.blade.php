@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container md-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold">All Saves</h2>
+            <h2 class="fw-semibold">All Saves</h2>
         </div>
 
         @if ($savedPosts->isEmpty())
