@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
         $users = User::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
         return response()->json($users);
     });
-    
+
 
     // save posts from user
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');

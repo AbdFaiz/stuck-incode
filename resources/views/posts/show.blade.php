@@ -2,47 +2,43 @@
 
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-between align-items-start mb-4">
-            <div>
-                <h2 class="fw-semibold">{{ $post->title }}</h2>
-                <p class="text-muted">Asked {{ $post->created_at->diffForHumans() }} by <a
-                        href="{{ route('users.show', $post->user->id) }}"
-                        class="text-decoration-none text-muted fw-semibold">{{ $post->user->name }}</a></p>
-            </div>
-            <div>
-                <span class="badge bg-info me-2">{{ $post->answers->count() }} answers</span>
-                <span class="badge bg-success">{{ $post->views }} views</span>
-                @livewire('post-vote-button', ['post' => $post], key($post->id))
-            </div>
-        </div>
-
-        <div class="mb-8">
-            <p class="fs-5">{{ $post->details }}</p>
-            <p class="text-muted">{{ $post->try_and_expect }}</p>
-        </div>
-
-        <hr>
-
-        @livewire('add-answer', ['post' => $post], key($post->id)) <!-- Form Livewire untuk menambah jawaban -->
-
-        <div class="list-group mt-4">
-            @foreach ($post->answers as $answer)
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="mb-1">{{ $answer->user->name }}</h5>
-                            <small class="text-muted">{{ $answer->created_at->diffForHumans() }}</small>
+        <div class="row mb-4">
+            <div class="col-lg-9">
+                <!-- Post Title and Details -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2 class="mb-0">{{ $post->title }}</h2>
+                            <div>
+                                <span class="badge bg-info me-2">{{ $post->answers->count() }} answers</span>
+                                <span class="badge bg-success">{{ $post->views }} views</span>
+                            </div>
                         </div>
-                        <div>
-                            @livewire('vote-button', ['answer' => $answer], key($answer->id)) <!-- Voting untuk jawaban -->
-                        </div>
+                        <p class="mb-4">{{ $post->details }}</p>
+                        <!-- Voting Button for the Post -->
+                        @livewire('post-vote-button', ['post' => $post], key($post->id))
                     </div>
-                    <p class="mb-1">{{ $answer->details }}</p>
-                    @if ($answer->accepted)
-                        <span class="badge bg-warning">Accepted Answer</span>
-                    @endif
                 </div>
-            @endforeach
+
+                <!-- Answers Section -->
+                <div class="mb-4">
+                    @livewire('add-answer', ['post' => $post], key($post->id))
+                </div>
+
+                @livewire('answer-list', ['post' => $post], key('answer-list-' . $post->id))
+            </div>
+            <div class="col-lg-3">
+                <!-- Right Sidebar (like Stack Overflow) -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Post Stats</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Views:</strong> {{ $post->views }}</p>
+                        <p><strong>Answers:</strong> {{ $post->answers->count() }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
