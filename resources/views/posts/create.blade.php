@@ -35,14 +35,14 @@
                     <label for="title" class="form-label fw-bold">Title</label>
                     <input type="text" class="form-control" id="title" name="title"
                         placeholder="e.g. Is there an R function for finding the index of an element in a vector?" required>
-                    <button type="button" class="btn btn-primary mt-2" id="next-details" disabled>Next</button>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="next-details" disabled>Next</button>
                 </div>
 
                 <div class="form-section mb-4 disabled" id="section-details">
                     <label for="details" class="form-label fw-bold">What are the details of your problem?</label>
                     <textarea class="form-control" id="details" name="details" rows="5"
                         placeholder="Introduce the problem and expand on what you put in the title." disabled></textarea>
-                    <button type="button" class="btn btn-primary mt-2" id="next-try-and-expect" disabled>Next</button>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="next-try-and-expect" disabled>Next</button>
                 </div>
 
                 <div class="form-section mb-4 disabled" id="section-try-and-expect">
@@ -61,7 +61,7 @@
                     <input type="hidden" id="tags-hidden" name="tags-hidden">
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-2" disabled>Submit</button>
+                <button type="submit" class="btn btn-outline-primary mt-2" disabled>Submit</button>
             </form>
         </div>
 
