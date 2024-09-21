@@ -4,13 +4,6 @@
 <div class="container">
     <h2 class="fw-bold mb-4">Users</h2>
 
-    <!-- Search Bar -->
-    <div class="mb-4">
-        <div class="input-group">
-            <input type="text" id="search" class="form-control" placeholder="Search users...">
-        </div>
-    </div>
-
     <!-- Users List -->
     <div id="user-list" class="row">
         @foreach ($users as $user)
