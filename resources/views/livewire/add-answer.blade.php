@@ -1,5 +1,4 @@
 <div>
-    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     <h3>Add an Answer</h3>
     <form wire:submit.prevent="submit">
         <div class="mb-3">

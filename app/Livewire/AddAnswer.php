@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Answer;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class AddAnswer extends Component
@@ -17,7 +18,6 @@ class AddAnswer extends Component
     ];
 
     public function mount(Post $post)
-
     {
         $this->post = $post;
     }
@@ -32,8 +32,9 @@ class AddAnswer extends Component
             'content' => $this->content,
         ]);
 
-        $this->content = ''; // Reset form field
-        $this->emit('answerAdded'); // Trigger event to refresh answers list
+        Log::info('Answer created', ['post_id' => $this->post->id, 'user_id' => Auth::id(), 'content' => $this->content]);
+
+        $this->emit('answerAdded');
     }
 
     public function render()
