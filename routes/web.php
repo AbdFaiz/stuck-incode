@@ -47,13 +47,12 @@ Route::middleware('auth')->group(function () {
         $users = User::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
         return response()->json($users);
     });
-    
+
 
     // save posts from user
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');
     Route::post('/posts/{post}/save', [PostController::class, 'savePost'])->name('posts.save');
     Route::delete('/posts/{post}/unsave', [PostController::class, 'unsavePost'])->name('posts.unsave');
-    Route::get('/users/{id}', [UserController::class, 'show']);
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
 
