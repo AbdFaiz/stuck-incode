@@ -3,11 +3,9 @@
 @section('content')
 <div class="container">
     <h2 class="fw-bold mb-4">Users</h2>
-
     <!-- Livewire User Search -->
     <h3>Cari Pengguna</h3>
-    @livewire('user-search')    
-
+    @livewire('user-search')  
     <!-- Users List -->
     <div id="user-list" class="row">
         @foreach ($users as $user)
