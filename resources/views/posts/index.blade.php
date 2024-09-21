@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold">All Questions</h2>
+            <h2 class="fw-semibold">All Questions</h2>
             <a href="{{ route('posts.create') }}" class="btn btn-primary">Ask Question</a>
         </div>
 

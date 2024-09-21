@@ -15,7 +15,7 @@
                 <h2 class="fw-bold fs-4">Writing a Good Question</h2>
                 <p>You're ready to ask a programming-related question and this form will help guide you through the process.
                 </p>
-                <p>Looking to ask a non-programming question? See the topics <a href="#">here</a> to find a relevant
+                <p>Looking to ask a non-programming question? See the topics <a href="#">here</a>to find a relevant
                     site.</p>
 
                 <h3>Steps</h3>
