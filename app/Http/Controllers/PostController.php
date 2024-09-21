@@ -122,15 +122,15 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        // Validasi input
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'details' => 'required|string',
             'try_and_expect' => 'required|string',
-            'tags' => 'required|array',
-            'tags.*' => 'string|distinct'
+            'tags-hidden' => 'required|string',
         ]);
 
-        // Simpan perubahan pada post
+        // Update post with validated data
         $post->update([
             'title' => $validated['title'],
             'details' => $validated['details'],
@@ -138,30 +138,31 @@ class PostController extends Controller
         ]);
 
         // Proses tags
-        $newTags = array_unique($validated['tags']);
+        $tags = explode(',', $validated['tags-hidden']);
         $newTagIds = [];
-        foreach ($newTags as $tagName) {
+
+        foreach ($tags as $tagName) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $newTagIds[] = $tag->id;
+
+            // Increment the used_count
+            $tag->increment('used_count');
         }
 
-        // Ambil tags lama sebelum di-sync
+        // Get old tag IDs before syncing
         $oldTagIds = $post->tags()->pluck('id')->toArray();
 
-        // Sync tags baru dengan post
+        // Sync new tags with the post
         $post->tags()->sync($newTagIds);
 
-        // Update used_count: Tambahkan untuk tag baru, kurangi untuk tag yang dihapus
-        foreach (array_diff($newTagIds, $oldTagIds) as $newTagId) {
-            Tag::where('id', $newTagId)->increment('used_count');
-        }
-
+        // Decrement used_count for removed tags
         foreach (array_diff($oldTagIds, $newTagIds) as $oldTagId) {
             Tag::where('id', $oldTagId)->decrement('used_count');
         }
 
-        return redirect()->route('posts.index')->with('status', 'Pertanyaan berhasil diperbarui.');
+        return redirect()->route('posts.index')->with('status', 'Post berhasil diperbarui.');
     }
+
 
     /**
      * Remove the specified resource from storage.
