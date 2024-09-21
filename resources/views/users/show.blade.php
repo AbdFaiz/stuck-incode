@@ -10,7 +10,7 @@
                 <p class="text-muted">{{ $user->email }} - {{ $user->location ?? 'Location' }}</p>
                 <div>
                     <a href="#" class="text-decoration-none me-2">Twitter</a>
-                    <a href="#" class="text-decoration-none me-2">GitHub</a>
+                    <a href="https://github.com/jett62" class="text-decoration-none me-2">GitHub</a>
                     <a href="#" class="text-decoration-none">Website</a>
                 </div>
             </div>
@@ -47,7 +47,7 @@
 
             <!-- Badges -->
             <div class="col-md-12 mb-4">
-                <h4 class="fw-bold">Badges</h4>
+                <h2 class="fw-semibold">Badges</h2>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card p-3 shadow-sm border-light text-center">
@@ -72,7 +72,7 @@
 
             <!-- Recent Posts -->
             <div class="col-md-12 mb-4">
-                <h3 class="fw-bold">Recent Posts</h3>
+                <h2 class="fw-semibold">Recent Posts</h2>
                 <ul class="list-unstyled">
                     @forelse ($user->posts as $post)
                         <li class="mb-2 border rounded p-3">
@@ -90,7 +90,7 @@
 
             <!-- Recent Answers -->
             <div class="col-md-12 mb-4">
-                <h3 class="fw-bold">Recent Answers</h3>
+                <h2 class="fw-semibold">Recent Answers</h2>
                 <ul class="list-unstyled">
                     @forelse ($user->answers as $answer)
                         <li class="mb-2 border rounded p-3">
