@@ -22,7 +22,7 @@ class AddAnswer extends Component
         $this->post = $post;
     }
 
-    public function submit()
+    public function addAnswer()
     {
         $this->validate();
 
@@ -34,8 +34,10 @@ class AddAnswer extends Component
 
         Log::info('Answer created', ['post_id' => $this->post->id, 'user_id' => Auth::id(), 'content' => $this->content]);
 
-        $this->emit('answerAdded');
+        $this->content = '';
+        $this->dispatch('answerAdded');
     }
+
 
     public function render()
     {

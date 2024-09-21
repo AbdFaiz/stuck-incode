@@ -9,11 +9,7 @@ class Answer extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'body',
-        'user_id',
-        'question_id',
-    ];
+    protected $guarded = [];
 
     // Relasi ke pengguna
     public function user()
@@ -22,8 +18,8 @@ class Answer extends Model
     }
 
     // Relasi ke pertanyaan
-    public function question()
+    public function post()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Post::class);
     }
 }
