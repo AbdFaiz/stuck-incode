@@ -27,7 +27,6 @@
 
                 @livewire('answer-list', ['post' => $post], key('answer-list-' . $post->id))
             </div>
-
             <div class="col-lg-3">
                 <!-- Right Sidebar (like Stack Overflow) -->
                 <div class="card mb-3">

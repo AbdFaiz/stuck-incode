@@ -41,7 +41,6 @@ Route::middleware('auth')->group(function () {
 
     // users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/api/users', function (Request $request) {
         $query = $request->get('query');
         $users = User::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
