@@ -94,7 +94,7 @@ class PostController extends Controller
             $post->tags()->attach($tag);
         }
 
-        return redirect()->rouote('posts.index')->with('success', 'Post created successfully');
+        return redirect()->route('posts.index')->with('success', 'Post created successfully');
     }
 
 
