@@ -205,14 +205,14 @@
                             </div>
                         </div>
 
-                        {{-- <div class="card mb-4">
+                        <div class="card mb-4">
                         <div class="card-header">Your Stats</div>
                         <div class="card-body">
-                            <p><strong>Questions asked:</strong> 2</p>
+                            <p><strong>Questions asked:</strong> 111111111</p>
                             <p><strong>Answers given:</strong> 5</p>
                             <p><strong>Reputation:</strong> 15</p>
                         </div>
-                    </div> --}}
+                    </div>
                     </div>
                 </div>
             @endif

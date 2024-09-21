@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="section-header mb-4">
-        <h1 class="fw-bold fs-3">Edit Your Question</h1>
+        <h2 class="fw-semibold fs-4">Edit Your Question</h2>
     </div>
 
     <div class="row">
@@ -12,13 +12,13 @@
         <div class="col-md-8">
             <!-- Instructions Section -->
             <section class="instruction-section mb-4 p-4 border bg-light">
-                <h2 class="fw-bold fs-4">Writing a Good Question</h2>
+                <h2 class="fw-semibold fs-4">Writing a Good Question</h2>
                 <p>You're ready to edit your programming-related question and this form will help guide you through the
                     process.</p>
                 <p>Looking to ask a non-programming question? See the topics <a href="#">here</a> to find a relevant
                     site.</p>
 
-                <h3>Steps</h3>
+                <h3 class="fw-semibold fs-4">Steps</h3>
                 <ol>
                     <li>Summarize your problem in a one-line title.</li>
                     <li>Describe your problem in more detail.</li>
@@ -34,27 +34,27 @@
                 @method('PUT')
 
                 <div class="form-section mb-4">
-                    <label for="title" class="form-label fw-bold">Title</label>
+                    <label for="title" class="form-label fw-semibold fs-5">Title</label>
                     <input type="text" class="form-control" id="title" name="title"
                         value="{{ old('title', $post->title) }}"
                         placeholder="e.g. Is there an R function for finding the index of an element in a vector?" required>
                 </div>
 
                 <div class="form-section mb-4">
-                    <label for="details" class="form-label fw-bold">What are the details of your problem?</label>
+                    <label for="details" class="form-label fw-semibold fs-5">What are the details of your problem?</label>
                     <textarea class="form-control" id="details" name="details" rows="5"
                         placeholder="Introduce the problem and expand on what you put in the title." required>{{ old('details', $post->details) }}</textarea>
                 </div>
 
                 <div class="form-section mb-4">
-                    <label for="try_and_expect" class="form-label fw-bold">What did you try and what were you
+                    <label for="try_and_expect" class="form-label fw-semibold fs-5">What did you try and what were you
                         expecting?</label>
                     <textarea class="form-control" id="try_and_expect" name="try_and_expect" rows="5"
                         placeholder="Describe what you tried, what you expected to get, and what actually happened." required>{{ old('try_and_expect', $post->try_and_expect) }}</textarea>
                 </div>
 
                 <div class="form-section mb-4">
-                    <label for="tags" class="form-label fw-bold">Tags</label>
+                    <label for="tags" class="form-label fw-semibold fs-5">Tags</label>
                     <input type="text" class="form-control" id="tags" name="tags[]"
                         placeholder="e.g. PHP, Laravel">
                     <div id="tag-suggestions" class="mt-2 bg-light border"></div>
@@ -78,7 +78,7 @@
         <!-- Right Panel (Tips on writing a good title) -->
         <div class="col-md-4">
             <div class="bg-light p-3 border">
-                <h4 class="fw-bold">Writing a good title</h4>
+                <h2 class="fw-semibold fs-4">Writing a good title</h2>
                 <p>Your title should summarize the problem.</p>
                 <p>You might find that you have a better idea of your title after writing out the rest of the question.</p>
             </div>
