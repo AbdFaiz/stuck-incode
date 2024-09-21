@@ -9,17 +9,17 @@ class CreateAnswersTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        if (!Schema::hasTable('answers')) {
-            Schema::create('answers', function (Blueprint $table) {
-                $table->id();
-                $table->text('content');
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
-                $table->foreignId('post_id')->constrained()->onDelete('cascade');
-                $table->timestamps();
-            });
-        }
+        Schema::create('answers', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('post_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('content');
+            $table->integer('votes')->default(0);
+            $table->boolean('is_accepted')->default(false);
+            $table->timestamps();
+        });
     }
 
     /**
