@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="fw-bold mb-4">Users</h2>
+        <h2 class="fw-semibold mb-4">Users</h2>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div style="max-width: 300px;">
