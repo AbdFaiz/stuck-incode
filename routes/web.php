@@ -19,11 +19,7 @@ Route::get('/home', [PostController::class, 'topQuestions'])->name('home');
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
-    Route::get('/questions', [App\Http\Controllers\PostController::class, 'index'])->name('questions');
-
-    Route::resource('posts', PostController::class);
     Route::resource('tags', TagController::class);
-    Route::get('/questions', [App\Http\Controllers\PostController::class, 'index'])->name('questions');
 
     Route::get('/api/tags', function (Request $request) {
         $query = $request->get('query');
@@ -41,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     // users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::get('/api/users', function (Request $request) {
         $query = $request->get('query');
         $users = User::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
@@ -52,7 +49,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');
     Route::post('/posts/{post}/save', [PostController::class, 'savePost'])->name('posts.save');
     Route::delete('/posts/{post}/unsave', [PostController::class, 'unsavePost'])->name('posts.unsave');
-    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
 
 

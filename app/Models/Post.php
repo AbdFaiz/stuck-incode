@@ -13,8 +13,10 @@ class Post extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')
+            ->select('tags.id', 'tags.name');
     }
+
 
     public function answers()
     {
@@ -28,7 +30,7 @@ class Post extends Model
 
     public function savedByUsers()
     {
-        return $this->belongsToMany(User::class, 'post_user_saves')->withTimestamps();
+        return $this->belongsToMany(User::class, 'post_user')->withTimestamps();
     }
 
 }
