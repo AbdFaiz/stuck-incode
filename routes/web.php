@@ -4,6 +4,7 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +21,14 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('tags', TagController::class);
+    
 
     Route::get('/api/tags', function (Request $request) {
         $query = $request->get('query');
         $tags = Tag::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
         return response()->json($tags);
     });
-    
+
 
     // jawaban dan fiturnya
     Route::post('/posts/{post}/vote', [PostController::class, 'vote'])->name('posts.vote');
@@ -50,8 +52,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');
     Route::post('/posts/{post}/save', [PostController::class, 'savePost'])->name('posts.save');
     Route::delete('/posts/{post}/unsave', [PostController::class, 'unsavePost'])->name('posts.unsave');
+    Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
+    Route::middleware('auth')->get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
 
-
+    Route::post('/logout', function () {Auth::logout();return redirect('/login');})->name('logout');
 
 
     // Route::post('/posts/{post}/answers/{answer}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');
