@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="section-header mb-4">
-        <h2 class="fw-semibold fs-3">Ask a Public Question</h2>
+        <h1 class="fw-bold fs-3">Ask a Public Question</h1>
     </div>
 
     <div class="row">
@@ -12,13 +12,12 @@
         <div class="col-md-8">
             <!-- Instructions Section -->
             <section class="instruction-section mb-4 p-4 border bg-light">
-                <h2 class="fw-semibold fs-4">Writing a Good Question</h2>
+                <h2 class="fw-bold fs-4">Writing a Good Question</h2>
                 <p>You're ready to ask a programming-related question and this form will help guide you through the process.
                 </p>
-                <p>Looking to ask a non-programming question? See the topics <a href="#">here</a>to find a relevant
+                <p>Looking to ask a non-programming question? See the topics <a href="#">here</a> to find a relevant
                     site.</p>
-
-                <h2 class="fw-semibold fs-4">Steps</h2>
+                <h3>Steps</h3>
                 <ol>
                     <li>Summarize your problem in a one-line title.</li>
                     <li>Describe your problem in more detail.</li>
@@ -32,43 +31,43 @@
             <form method="POST" action="{{ route('posts.store') }}">
                 @csrf
                 <div class="form-section mb-4">
-                    <label for="title" class="form-label fw-semibold fs-5">Title</label>
+                    <label for="title" class="form-label fw-bold">Title</label>
                     <input type="text" class="form-control" id="title" name="title"
                         placeholder="e.g. Is there an R function for finding the index of an element in a vector?" required>
                     <button type="button" class="btn btn-outline-primary mt-2" id="next-details" disabled>Next</button>
                 </div>
 
-                <div class="form-section mb-4 disabled" id="section-details" style="display: none;">
-                    <label for="details" class="form-label fw-semibold fs-5">What are the details of your problem?</label>
+                <div class="form-section mb-4 disabled" id="section-details">
+                    <label for="details" class="form-label fw-bold">What are the details of your problem?</label>
                     <textarea class="form-control" id="details" name="details" rows="5"
                         placeholder="Introduce the problem and expand on what you put in the title." disabled></textarea>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="next-try-and-expect" disabled>Next</button>
+                    <button type="button" class="btn btn-outline-primary mt-2" id="next-try-and-expect"
+                        disabled>Next</button>
                 </div>
-                
-                <div class="form-section mb-4 disabled" id="section-try-and-expect" style="display: none;">
-                    <label for="try_and_expect" class="form-label fw-semibold fs-5">What did you try and what were you
+
+                <div class="form-section mb-4 disabled" id="section-try-and-expect">
+                    <label for="try_and_expect" class="form-label fw-bold">What did you try and what were you
                         expecting?</label>
                     <textarea class="form-control" id="try_and_expect" name="try_and_expect" rows="5"
                         placeholder="Describe what you tried, what you expected to get, and what actually happened." disabled></textarea>
-                    <button type="button" class="btn btn-outline-primary mt-2" id="next-tags" disabled>Next</button>
                 </div>
 
-                <div class="form-section mb-4 disabled" id="section-tags" style="display: none;">
+                <div class="form-section mb-4">
                     <label for="tags" class="form-label fw-bold">Tags</label>
-                    <input type="text" class="form-control" id="tags" name="tags[]"
-                        placeholder="e.g. PHP, Laravel" disabled>
+                    <input type="text" class="form-control" id="tags" placeholder="e.g. PHP, Laravel">
                     <div id="tag-suggestions" class="mt-2 bg-light border"></div>
                     <div id="tag-container" class="mt-2"></div>
                     <input type="hidden" id="tags-hidden" name="tags-hidden">
-                    <button type="submit" class="btn btn-outline-primary mt-2" disabled>Submit</button>
                 </div>
+
+                <button type="submit" class="btn btn-outline-primary mt-2" disabled>Submit</button>
             </form>
         </div>
 
         <!-- Right Panel (Tips on writing a good title) -->
         <div class="col-md-4">
             <div class="bg-light p-3 border">
-                <h4 class="fw-semibold fs-4">Writing a good title</h4>
+                <h4 class="fw-bold">Writing a good title</h4>
                 <p>Your title should summarize the problem.</p>
                 <p>You might find that you have a better idea of your title after writing out the rest of the question.</p>
             </div>
@@ -82,24 +81,21 @@
             const detailsInput = document.getElementById('details');
             const tryAndExpectInput = document.getElementById('try_and_expect');
             const nextDetailsBtn = document.getElementById('next-details');
-            const nextTryAndExpectBtn = document.getElementById('next-try-and-expect'); 
-            const nextTagsBtn = document.getElementById('next-tags');
+            const nextTryAndExpectBtn = document.getElementById('next-try-and-expect');
             const submitBtn = document.querySelector('button[type="submit"]');
             const sectionDetails = document.getElementById('section-details');
             const sectionTryAndExpect = document.getElementById('section-try-and-expect');
-            const sectionTags = document.getElementById('section-tags');
 
             // Enable 'Next' button if title is filled
             titleInput.addEventListener('input', function() {
                 nextDetailsBtn.disabled = titleInput.value.trim() === '';
             });
 
-            // Enable details section and inputs when 'Next' is clicked
+            // Enable details section when 'Next' is clicked
             nextDetailsBtn.addEventListener('click', function() {
                 sectionDetails.classList.remove('disabled');
                 detailsInput.disabled = false;
                 sectionDetails.style.display = 'block';
-                nextDetailsBtn.disabled = true;
             });
 
             // Enable 'Next' button in details section if details are filled
@@ -107,29 +103,15 @@
                 nextTryAndExpectBtn.disabled = detailsInput.value.trim() === '';
             });
 
-            // Enable try and expect section and inputs when 'Next' is clicked
+            // Enable try and expect section when 'Next' is clicked
             nextTryAndExpectBtn.addEventListener('click', function() {
                 sectionTryAndExpect.classList.remove('disabled');
                 tryAndExpectInput.disabled = false;
                 sectionTryAndExpect.style.display = 'block';
-                nextTryAndExpectBtn.disabled = true;
-            });
-
-            // Enable 'Next' button in try and expect section if input is filled
-            tryAndExpectInput.addEventListener('input', function() {
-                nextTagsBtn.disabled = tryAndExpectInput.value.trim() === '';
-            });
-
-            // Enable tags section when 'Next' is clicked
-            nextTagsBtn.addEventListener('click', function() {
-                sectionTags.classList.remove('disabled');
-                document.getElementById('tags').disabled = false;
-                sectionTags.style.display = 'block';
-                nextTagsBtn.disabled = true;
                 submitBtn.disabled = false; // Enable the submit button
             });
 
-            // Tags functionality (unchanged)
+            // Tag handling
             const tagsInput = document.getElementById('tags');
             const tagContainer = document.getElementById('tag-container');
             const tagSuggestions = document.getElementById('tag-suggestions');
@@ -189,11 +171,11 @@
             });
 
             tagsInput.addEventListener('keydown', function(event) {
-                // Allow adding a new tag with "Enter" if it doesn't exist in suggestions
                 if (event.key === 'Enter') {
                     const tagToAdd = tagsInput.value.trim();
                     if (tagToAdd !== '') {
                         addTag(tagToAdd);
+                        event.preventDefault();
                     }
                 }
             });
