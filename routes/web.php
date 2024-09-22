@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
         $tags = Tag::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
         return response()->json($tags);
     });
+    
 
     // jawaban dan fiturnya
     Route::post('/posts/{post}/vote', [PostController::class, 'vote'])->name('posts.vote');
