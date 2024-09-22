@@ -10,7 +10,7 @@
                 <p class="text-muted">{{ $user->email }} - {{ $user->location ?? 'Location' }}</p>
                 <div>
                     <a href="#" class="text-decoration-none me-2">Twitter</a>
-                    <a href="https://github.com/jett62" class="text-decoration-none me-2">GitHub</a>
+                    <a href="#" class="text-decoration-none me-2">GitHub</a>
                     <a href="#" class="text-decoration-none">Website</a>
                 </div>
             </div>

@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Livewire Styles -->
     @livewireStyles
+
     <style>
         body,
         html {
@@ -65,7 +68,6 @@
             overflow-y: auto;
         }
 
-        /* Sidebar fixed position */
         .sidebar-fixed {
             position: fixed;
             top: 1rem;
@@ -111,9 +113,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <!-- <img src="{{ asset('image/taktak.png') }}" style="height: 40px;"> -->
-                <a href="{{ route('home') }}" class="text-danger fw-semibold text-decoration-none">Stuck<span
-                        class="text-warning">InCode</span></a>
+                <a href="{{ route('home') }}" class="text-danger fw-semibold text-decoration-none">Stuck<span class="text-warning">InCode</span></a>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -134,7 +134,6 @@
                 </ul>
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto fw-semibold">
-                    <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
@@ -148,6 +147,11 @@
                             </li>
                         @endif
                     @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.index') }}" title="Profile">
+                                <i class="bi bi-person"></i>
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -155,18 +159,21 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('saved.posts') }}">Saved Items</a>
+                                <!-- Logout Option -->
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-
+                                <!-- Logout Form -->
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
                             </div>
                         </li>
                     @endguest
+                </ul>
             </div>
         </div>
     </nav>
@@ -174,7 +181,6 @@
     <!-- Main Content -->
     <div class="container mt-4 content">
         <div class="row">
-            <!-- Sidebar hanya ditampilkan untuk user yang login -->
             @if (!in_array(Route::currentRouteName(), ['login', 'register']))
                 <div class="col-3">
                     <div class="d-none d-md-block scrollable-sidebar">
@@ -182,20 +188,16 @@
                             <div class="card-header">Public</div>
                             <div class="list-group list-group-flush">
                                 <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
-                                <a href="{{ route('posts.index') }}"
-                                    class="list-group-item list-group-item-action">Questions</a>
-                                <a href="{{ route('tags.index') }}"
-                                    class="list-group-item list-group-item-action">Tags</a>
+                                <a href="{{ route('posts.index') }}" class="list-group-item list-group-item-action">Questions</a>
+                                <a href="{{ route('tags.index') }}" class="list-group-item list-group-item-action">Tags</a>
                             </div>
                         </div>
 
                         <div class="card mb-4">
                             <div class="card-header">Collectives</div>
                             <div class="list-group list-group-flush">
-                                <a href="{{ route('saved.posts') }}"
-                                    class="list-group-item list-group-item-action">Saves</a>
-                                <a href="{{ route('users.index') }}"
-                                    class="list-group-item list-group-item-action">Users</a>
+                                <a href="{{ route('saved.posts') }}" class="list-group-item list-group-item-action">Saves</a>
+                                <a href="{{ route('users.index') }}" class="list-group-item list-group-item-action">Users</a>
                             </div>
                         </div>
 
@@ -207,24 +209,24 @@
                         </div>
 
                         <div class="card mb-4">
-                        <div class="card-header">Your Stats</div>
-                        <div class="card-body">
-                            <p><strong>Questions asked:</strong> 111111111</p>
-                            <p><strong>Answers given:</strong> 5</p>
-                            <p><strong>Reputation:</strong> 15</p>
+                            <div class="card-header">Your Stats</div>
+                            <div class="card-body">
+                                <p><strong>Questions asked:</strong> 111111111</p>
+                                <p><strong>Answers given:</strong> 5</p>
+                                <p><strong>Reputation:</strong> 15</p>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             @endif
 
             <div class="{{ in_array(Route::currentRouteName(), ['login', 'register']) ? 'col-12' : 'col-9' }}">
                 @yield('content')
+
                 @livewireScripts
             </div>
         </div>
     </div>
-
 
     <!-- Footer -->
     <footer class="mt-5 p-3 d-flex justify-content-center bg-primary text-white fw-semibold">
