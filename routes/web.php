@@ -46,8 +46,9 @@ Route::middleware('auth')->group(function () {
         $users = User::where('name', 'like', "%{$query}%")->take(10)->get(); // Adjust limit as needed
         return response()->json($users);
     });
-
-
+    Route::get('/profile/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/profile/{user}', [UserController::class, 'update'])->name('users.profile.update');
+    
     // save posts from user
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');
     Route::post('/posts/{post}/save', [PostController::class, 'savePost'])->name('posts.save');
