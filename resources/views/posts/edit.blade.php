@@ -143,11 +143,11 @@
             tagsInput.addEventListener('input', async function() {
                 const query = tagsInput.value.trim();
                 if (query.length > 1) {
-                    const response = await fetch(`/api/tags?query=${query}`);
+                    const response = await fetch(/api/tags?query=${query});
                     const tags = await response.json();
 
                     tagSuggestions.innerHTML = tags.map(tag =>
-                        `<div class="suggestion-item p-2" data-tag="${tag.name}">${tag.name}</div>`
+                        <div class="suggestion-item p-2" data-tag="${tag.name}">${tag.name}</div>
                     ).join('');
                     tagSuggestions.style.display = 'block';
                 } else {

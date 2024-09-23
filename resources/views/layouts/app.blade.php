@@ -230,7 +230,7 @@
 
     <!-- Footer -->
     <footer class="mt-5 p-3 d-flex justify-content-center bg-primary text-white fw-semibold">
-        Copyright &copy; Zet dan Fz
+        Copyright &copy; Fz dan Zet
     </footer>
 
     <!-- Bootstrap JS -->
