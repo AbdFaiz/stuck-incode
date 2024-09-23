@@ -21,7 +21,7 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('tags', TagController::class);
-    
+
 
     Route::get('/api/tags', function (Request $request) {
         $query = $request->get('query');
@@ -52,10 +52,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/saved-posts', [UserController::class, 'savedPosts'])->name('saved.posts');
     Route::post('/posts/{post}/save', [PostController::class, 'savePost'])->name('posts.save');
     Route::delete('/posts/{post}/unsave', [PostController::class, 'unsavePost'])->name('posts.unsave');
-    Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
-    Route::middleware('auth')->get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
 
-    Route::post('/logout', function () {Auth::logout();return redirect('/login');})->name('logout');
+    Route::post('/logout', function () {
+        Auth::logout();
+        return redirect('/login');
+    })->name('logout');
 
 
     // Route::post('/posts/{post}/answers/{answer}/mark-as-correct', [AnswerController::class, 'markAsAccepted'])->name('answers.markAsAccepted');
