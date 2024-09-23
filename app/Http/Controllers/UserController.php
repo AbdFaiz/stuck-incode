@@ -33,13 +33,13 @@ class UserController extends Controller
 
         return view('saved', compact('savedPosts'));
     }
-    
+
     public function show($id)
     {
         $user = User::with(['posts', 'answers'])->findOrFail($id);
-        return view('users.show', compact('user')); // Mengirim variabel $user
+        $isOwner = Auth::user()->id;
+
+        return view('users.show', compact('user', 'isOwner')); // Mengirim variabel $user
     }
-
-
 
 }

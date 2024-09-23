@@ -13,7 +13,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Livewire Styles -->
     @livewireStyles
@@ -113,7 +112,8 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <a href="{{ route('home') }}" class="text-danger fw-semibold text-decoration-none">Stuck<span class="text-warning">InCode</span></a>
+                <a href="{{ route('home') }}" class="text-danger fw-semibold text-decoration-none">Stuck<span
+                        class="text-warning">InCode</span></a>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -148,7 +148,7 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('profile.index') }}" title="Profile">
+                            <a class="nav-link" href="{{ route('users.show', Auth::user()->id) }}" title="Profile">
                                 <i class="bi bi-person"></i>
                             </a>
                         </li>
@@ -188,16 +188,20 @@
                             <div class="card-header">Public</div>
                             <div class="list-group list-group-flush">
                                 <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
-                                <a href="{{ route('posts.index') }}" class="list-group-item list-group-item-action">Questions</a>
-                                <a href="{{ route('tags.index') }}" class="list-group-item list-group-item-action">Tags</a>
+                                <a href="{{ route('posts.index') }}"
+                                    class="list-group-item list-group-item-action">Questions</a>
+                                <a href="{{ route('tags.index') }}"
+                                    class="list-group-item list-group-item-action">Tags</a>
                             </div>
                         </div>
 
                         <div class="card mb-4">
                             <div class="card-header">Collectives</div>
                             <div class="list-group list-group-flush">
-                                <a href="{{ route('saved.posts') }}" class="list-group-item list-group-item-action">Saves</a>
-                                <a href="{{ route('users.index') }}" class="list-group-item list-group-item-action">Users</a>
+                                <a href="{{ route('saved.posts') }}"
+                                    class="list-group-item list-group-item-action">Saves</a>
+                                <a href="{{ route('users.index') }}"
+                                    class="list-group-item list-group-item-action">Users</a>
                             </div>
                         </div>
 
