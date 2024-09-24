@@ -63,4 +63,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Post::class, 'post_user', 'user_id', 'post_id');
     }
+
+    public function incrementCorrectAnswers()
+{
+    $this->increment('correct_answers_count');
+
+    // Cek apakah pengguna memenuhi syarat untuk mendapatkan badge
+    if ($this->correct_answers_count % 5 == 0) {
+        $this->increment('bronze_badges');
+    }
+}
+
 }
