@@ -77,6 +77,36 @@
                                     </button>
                                 </form>
                             @endif
+                            {{-- Dropdown untuk Edit dan Delete --}}
+                            @if (auth()->check() && auth()->user()->id === $post->user_id)
+                                <div class="dropdown d-inline-block">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('posts.edit', $post->id) }}">
+                                                Edit
+                                            </a>
+                                        </li>
+
+                                        <hr class="my-1 px-1">
+
+                                        <li>
+                                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item"
+                                                    onclick="return confirm('Are you sure you want to delete this post?');">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -96,9 +126,9 @@
 
                         <!-- Ask Time & User Info -->
                         <div class="text-muted small">
-                            Asked {{ $post->created_at->diffForHumans() }} by
+                            Asked <span class="fw-semibold">{{ $post->created_at->diffForHumans() }}</span> by
                             <a href="{{ route('users.show', $post->user->id) }}"
-                                class="fw-semibold">{{ $post->user->name }}</a>
+                                class="fw-semibold fst-italic text-muted text-decoration-none">{{ $post->user->name }}</a>
                         </div>
                     </div>
                 </div>
