@@ -135,43 +135,43 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto fw-semibold">
                     @guest
-                    @if (Route::has('login'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                    @endif
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                        @endif
 
-                    @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                    @endif
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
                     @else
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.show', Auth::user()->id) }}" title="Profile">
-                            <i class="bi bi-person"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('saved.posts') }}">Saved Items</a>
-                            <!-- Logout Option -->
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.show', Auth::user()->id) }}" title="Profile">
+                                <i class="bi bi-person"></i>
                             </a>
-                            <!-- Logout Form -->
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('saved.posts') }}">Saved Items</a>
+                                <!-- Logout Option -->
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <!-- Logout Form -->
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                     @endguest
                 </ul>
             </div>
@@ -182,45 +182,50 @@
     <div class="container mt-4 content">
         <div class="row">
             @if (!in_array(Route::currentRouteName(), ['login', 'register']))
-            <div class="col-3">
-                <div class="d-none d-md-block scrollable-sidebar">
-                    <div class="card mb-4">
-                        <div class="card-header">Public</div>
-                        <div class="list-group list-group-flush">
-                            <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
-                            <a href="{{ route('posts.index') }}"
-                                class="list-group-item list-group-item-action">Questions</a>
-                            <a href="{{ route('tags.index') }}"
-                                class="list-group-item list-group-item-action">Tags</a>
+                <div class="col-3">
+                    <div class="d-none d-md-block scrollable-sidebar">
+                        <div class="card mb-4">
+                            <div class="card-header">Public</div>
+                            <div class="list-group list-group-flush">
+                                <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
+                                <a href="{{ route('posts.index') }}"
+                                    class="list-group-item list-group-item-action">Questions</a>
+                                <a href="{{ route('tags.index') }}"
+                                    class="list-group-item list-group-item-action">Tags</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-4">
-                        <div class="card-header">Collectives</div>
-                        <div class="list-group list-group-flush">
-                            <a href="{{ route('saved.posts') }}"
-                                class="list-group-item list-group-item-action">Saves</a>
-                            <a href="{{ route('users.index') }}"
-                                class="list-group-item list-group-item-action">Users</a>
+                        <div class="card mb-4">
+                            <div class="card-header">Collectives</div>
+                            <div class="list-group list-group-flush">
+                                <a href="{{ route('saved.posts') }}"
+                                    class="list-group-item list-group-item-action">Saves</a>
+                                <a href="{{ route('users.index') }}"
+                                    class="list-group-item list-group-item-action">Users</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-4">
-                        <div class="card-header">Recent Tags</div>
-                        <div class="card-body">
-                            <p>No tags followed yet.</p>
+                        <div class="card mb-4">
+                            <div class="card-header">Recent Tags</div>
+                            <div class="card-body">
+                                <p>No tags followed yet.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-4">
-                        <div class="card-header">Your Stats</div>
-                        <div class="card-body">
-                            <p><strong>Questions asked:</strong> {{ $users->sum(function($user) { return $user->posts->count(); }) }}</p>
-                            <p><strong>Answers given:</strong> {{ $users->sum(function($user) { return $user->answers->count(); }) }}</p>
+                        <div class="card mb-4">
+                            <div class="card-header">Your Stats</div>
+                            <div class="card-body">
+                                @php
+                                    $users = \App\Models\User::with('posts', 'answers')->get();
+                                @endphp
+                                <p><strong>Questions asked:</strong>
+                                    {{ $users->sum(function ($user) {return $user->posts->count();}) }}</p>
+                                <p><strong>Answers given:</strong>
+                                    {{ $users->sum(function ($user) {return $user->answers->count();}) }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endif
 
             <div class="{{ in_array(Route::currentRouteName(), ['login', 'register']) ? 'col-12' : 'col-9' }}">

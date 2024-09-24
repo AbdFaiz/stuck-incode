@@ -12,13 +12,31 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, Post $post)
     {
-        $posts = Post::with('tags') // Ambil data dengan relasi tags jika ada
-            ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan waktu dibuat
-            ->paginate(100); // Pagination dengan 100 data per halaman
+        $filter = $request->query('filter');
 
-        return view('posts.index', compact('posts'));
+        $query = Post::with('tags');
+
+        // filter
+        if ($filter === 'votes') {
+            $query->orderBy('votes', 'desc');
+        } elseif ($filter === 'views') {
+            $query->orderBy('views', 'desc');
+        } elseif ($filter === 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($filter === 'unanswered') {
+            $query->whereDoesntHave('answers') // Mengambil post yang tidak memiliki jawaban
+                ->orderBy('created_at', 'desc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        // Paginate result
+        $posts = $query->paginate(100);
+
+        // Return view with posts and current filter
+        return view('posts.index', compact('posts', 'filter'));
     }
 
     /**
