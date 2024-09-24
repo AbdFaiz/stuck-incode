@@ -37,11 +37,12 @@ class UserController extends Controller
 
     public function show($id)
     {
+        // Fetch the user by ID, along with their related posts and answers
         $user = User::with(['posts', 'answers'])->findOrFail($id);
-        $isOwner = Auth::user()->id;
-
-        return view('users.show', compact('user', 'isOwner')); // Mengirim variabel $user
+        // Pass the specific user to the view
+        return view('users.show', compact('user'));
     }
+
 
     public function edit(User $user)
     {
