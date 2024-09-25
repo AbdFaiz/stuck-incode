@@ -45,5 +45,9 @@ class DatabaseSeeder extends Seeder
         Tag::create([
             'name' => 'php',
         ]);
+        
+        Tag::create([
+            'name' => 'HTML',
+        ]);
     }
 }
