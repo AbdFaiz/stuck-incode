@@ -20,16 +20,22 @@ class PostController extends Controller
 
         // filter
         if ($filter === 'votes') {
-            $query->orderBy('votes', 'desc');
+            $query->orderBy('votes', 'desc')
+                ->withCount('answers');
         } elseif ($filter === 'views') {
-            $query->orderBy('views', 'desc');
+            $query->orderBy('views', 'desc')
+                ->withCount('answers');
         } elseif ($filter === 'newest') {
-            $query->orderBy('created_at', 'desc');
+            $query->orderBy('created_at', 'desc')
+                ->withCount('answers');
         } elseif ($filter === 'unanswered') {
             $query->whereDoesntHave('answers') // Mengambil post yang tidak memiliki jawaban
-                ->orderBy('created_at', 'desc');
+                ->orderBy('created_at', 'desc')
+                ->withCount('answers');
+
         } else {
-            $query->orderBy('created_at', 'desc');
+            $query->orderBy('created_at', 'desc')
+                ->withCount('answers');
         }
 
         // Paginate result

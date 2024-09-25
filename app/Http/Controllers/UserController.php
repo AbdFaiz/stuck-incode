@@ -37,12 +37,20 @@ class UserController extends Controller
 
     public function show($id)
     {
-        // Fetch the user by ID, along with their related posts and answers
-        $user = User::with(['posts', 'answers'])->findOrFail($id);
-        // Pass the specific user to the view
-        return view('users.show', compact('user'));
-    }
+        $user = User::with([
+            'posts', // Ambil semua posts
+            'answers' // Ambil semua answers
+        ])
+            ->withCount(['posts', 'answers']) // Hitung total posts dan answers
+            ->findOrFail($id);
 
+        $totalVotes = $user->posts->sum('votes') + $user->answers->sum('votes');
+        $reached = $user->bronze_badges + $user->silver_badges + $user->gold_badges;
+
+        // dd($user);
+
+        return view('users.show', compact('user', 'totalVotes', 'reached'));
+    }
 
     public function edit(User $user)
     {

@@ -1,18 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+    {{-- <pre>{{ print_r($user->toArray()) }}</pre> --}}
+
     <div class="container mb-4">
         <div class="row">
             <!-- Profil Header -->
             <div class="col-md-12 text-center mb-4 border-bottom pb-4">
                 <div class="d-flex justify-content-center">
                     @if ($user->image)
-                        <!-- Update this line -->
-                        <!-- Jika ada foto profil -->
                         <img src="{{ asset('storage/' . $user->image) }}" alt="User Avatar"
                             style="height: 15rem; width: 15rem;" class="rounded-circle">
                     @else
-                        <!-- Jika tidak ada foto profil, tampilkan inisial nama -->
                         <div class="d-flex align-items-center justify-content-center rounded-circle bg-secondary text-white"
                             style="height: 15rem; width: 15rem; font-size: 5rem;">
                             {{ strtoupper($user->name[0]) }}
@@ -40,13 +39,13 @@
                     <div class="col-md-3">
                         <div class="card p-3 shadow-sm border-light">
                             <h6 class="text-primary fw-semibold">Reputation</h6>
-                            <p class="display-6">{{ number_format($user->reputation) }}</p>
+                            <p class="display-6">{{ number_format($totalVotes) }}</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card p-3 shadow-sm border-light">
                             <h6 class="text-success fw-semibold">Reached</h6>
-                            <p class="display-6">{{ number_format($user->reached) }}</p>
+                            <p class="display-6">{{ number_format($reached) }}</p>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -89,6 +88,8 @@
                 </div>
             </div>
 
+            {{-- @dd($user) --}}
+
             <!-- Recent Posts -->
             <div class="col-md-12 mb-4">
                 <h2 class="fw-semibold">Recent Posts</h2>
@@ -98,7 +99,8 @@
                             <a href="{{ route('posts.show', $post->id) }}" class="text-decoration-none text-dark">
                                 <h5>{{ $post->title }}</h5>
                             </a>
-                            <p class="text-muted">{{ Str::limit($post->content, 100) }}</p>
+                            <p class="text-muted">{{ Str::limit($post->details, 100) }}</p>
+                            <small class="text-muted">Votes: {{ $post->votes }}</small> <!-- Menampilkan jumlah votes -->
                             <small class="text-muted">Created {{ $post->created_at->diffForHumans() }}</small>
                         </li>
                     @empty
@@ -117,6 +119,7 @@
                             <a href="{{ route('posts.show', $answer->post->id) }}" class="text-decoration-none text-dark">
                                 <h5>{{ $answer->post->title }}</h5>
                             </a>
+                            <p class="text-muted">Votes: {{ $answer->votes }}</p> <!-- Menampilkan jumlah votes -->
                             <small class="text-muted">Answered {{ $answer->created_at->diffForHumans() }}</small>
                         </li>
                     @empty
