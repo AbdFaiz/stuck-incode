@@ -16,7 +16,9 @@ class PostController extends Controller
     {
         $filter = $request->query('filter');
 
-        $query = Post::with('tags');
+        $query = Post::with('tags')
+        ->withCount('answers')
+        ;
 
         // filter
         if ($filter === 'votes') {
