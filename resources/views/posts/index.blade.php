@@ -107,14 +107,15 @@
                                         <hr class="my-1 px-1">
 
                                         <li>
-                                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
-                                                style="display:inline;">
+                                            <a href="#" class="dropdown-item text-danger"
+                                                onclick="confirmDelete({{ $post->id }})">
+                                                Delete
+                                            </a>
+                                            <form id="delete-form-{{ $post->id }}"
+                                                action="{{ route('posts.destroy', $post->id) }}" method="POST"
+                                                style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item"
-                                                    onclick="return confirm('Are you sure you want to delete this post?');">
-                                                    Delete
-                                                </button>
                                             </form>
                                         </li>
                                     </ul>
@@ -151,4 +152,22 @@
             {{ $posts->links() }}
         </div>
     </div>
+
+    <script>
+        function confirmDelete(postId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + postId).submit();
+                }
+            });
+        }
+    </script>
 @endsection
