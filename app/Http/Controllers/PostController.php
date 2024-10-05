@@ -185,7 +185,7 @@ class PostController extends Controller
             Tag::where('id', $oldTagId)->decrement('used_count');
         }
 
-        return redirect()->route('posts.index')->with('status', 'Post berhasil diperbarui.');
+        return redirect()->route('posts.index')->with('success', 'Post berhasil diperbarui.');
     }
 
 
@@ -202,7 +202,7 @@ class PostController extends Controller
         $post->tags()->detach();
         $post->delete();
 
-        return redirect()->route('posts.index')->with('status', 'Pertanyaan berhasil dihapus.');
+        return redirect()->route('posts.index')->with('success', 'Post berhasil dihapus!');
     }
 
     // fitur vote
@@ -216,7 +216,7 @@ class PostController extends Controller
             $post->decrement('votes');
         }
 
-        return redirect()->back()->with('status', 'Vote berhasil diproses.');
+        return redirect()->back()->with('success', 'Vote berhasil diproses.');
     }
 
     public function downvote(Request $request, Post $post)
@@ -227,7 +227,7 @@ class PostController extends Controller
             $post->decrement('votes');
         }
 
-        return redirect()->back()->with('status', 'Downvote berhasil diproses.');
+        return redirect()->back()->with('success', 'Downvote berhasil diproses.');
     }
 
     public function savePost(Post $post)

@@ -147,6 +147,18 @@
             </div>
         @endforeach
 
+        <!-- Success Alert after deletion -->
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+                </script>
+        @endif
+
         <!-- Pagination -->
         <div class="d-flex justify-content-center mt-3">
             {{ $posts->links() }}
