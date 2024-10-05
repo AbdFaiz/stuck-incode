@@ -77,6 +77,9 @@
     <!-- JavaScript Section to Control Form Flow -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            
+
+            // other
             const titleInput = document.getElementById('title');
             const detailsInput = document.getElementById('details');
             const tryAndExpectInput = document.getElementById('try_and_expect');
